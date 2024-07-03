@@ -2,6 +2,7 @@ import { ProductList } from "./assets/components/ProductList";
 import { NavBar } from "./assets/components/NavBar";
 import "./assets/styles/app.scss";
 import Filters from "./assets/components/Filters";
+import Tablas from "./assets/components/Tablas";
 function App() {
   return (
     <main>
@@ -14,6 +15,7 @@ function App() {
       />
       <Filters />
       <ProductList className="productList" />
+      <Tablas />
     </main>
   );
 }
