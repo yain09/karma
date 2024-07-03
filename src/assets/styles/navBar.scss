@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+.navBar-container {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 70px;
+  background-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.navBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  height: 100%;
+}
+
+.brand {
+  margin: 0px 8px 0px 8px;
+  
+  font-size: 40px;
+  color: #d40b4e;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+
+}
+
+.navBar-a {
+    margin: 0px 8px;
+    color: #45454a
+}
+
+.navBar-a:hover {
+    color: white;
+  }
