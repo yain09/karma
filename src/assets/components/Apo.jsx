@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
 
-function Tablas() {
+// APO = all products object
+function APO({ onFetchComplete }) {
+  const [formatedAPO, setFormatedAPO] = useState([]);
+
   useEffect(() => {
     const sheetId = "1KuwnojNHc20if7X39fw1VeT6aNKmKKjMEPTOLQgs1rM";
     const sheetTitle = "PRODUCTS";
     const fullUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?sheet=${sheetTitle}`;
-    console.log(fullUrl);
+
     fetch(fullUrl)
       .then((res) => res.text())
       .then((rep) => {
         const data = JSON.parse(rep.substr(47).slice(0, -2));
-        const tabla = data.table.rows;
-        console.log(tabla);
-        const formatedDataArray = tabla.map((fila) => ({
+        const apo = data.table.rows;
+        const formattedData = apo.map((fila) => ({
           id: fila.c[0].v,
           name: fila.c[1].v,
           description: fila.c[2].v,
@@ -27,11 +29,19 @@ function Tablas() {
           stock: fila.c[11].v,
         }));
 
-        console.log(formatedDataArray);
+        setFormatedAPO(formattedData);
+
+        // Llamada a la función prop para pasar los datos al componente padre
+        if (onFetchComplete) {
+          onFetchComplete(formattedData);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
       });
   }, []);
 
-  return <div>Tablas</div>;
+  return <></>;
 }
 
-export default Tablas;
+export default APO;
