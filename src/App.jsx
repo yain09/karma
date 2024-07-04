@@ -1,9 +1,16 @@
+import { useState } from "react";
 import { ProductList } from "./assets/components/ProductList";
 import { NavBar } from "./assets/components/NavBar";
 import "./assets/styles/app.scss";
 import Filters from "./assets/components/Filters";
-import Tablas from "./assets/components/Tablas";
+import APO from "./assets/components/Apo";
+
 function App() {
+  const [apoData, setApoData] = useState([]);
+  const handleFetchComplete = (data) => {
+    setApoData(data);
+  };
+  console.log(apoData);
   return (
     <main>
       <NavBar />
@@ -15,7 +22,7 @@ function App() {
       />
       <Filters />
       <ProductList className="productList" />
-      <Tablas />
+      <APO onFetchComplete={handleFetchComplete} />
     </main>
   );
 }
