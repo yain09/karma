@@ -1,55 +1,94 @@
-import React, { useEffect, useState } from "react";
-import { products as initialProducts } from "../../products.json";
+import React, { useContext, useEffect, useState } from "react";
+import { getCategories, getSubCategories } from "../js/api";
+import { Context } from "../../App";
 
 const Filters = () => {
-    const [products] = useState(initialProducts);
-    const [selectedCategory, setSelectedCategory] = useState("All");
+  const { selectedCategory, setSelectedCategory } = useContext(Context);
+  const { selectedSubCategory, setSelectedSubCategory } = useContext(Context);
+  const [categories, setCategories] = useState([]);
+  const [subCategories, setSubCategories] = useState([]);
 
-    const uniqueCategories = [...new Set(products.map(product => product.category))];
-
-    const handleCategoryChange = (e) => {
-        setSelectedCategory(e.target.value);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const categories = await getCategories();
+        setCategories(categories);
+      } catch (err) {
+        console.log(err.message);
+      }
     };
 
-    const filteredProducts = selectedCategory === "All" ? products : products.filter(product => product.category === selectedCategory);
-    const uniqueSubcategories = [...new Set(filteredProducts.map(product => product.sub_cat))];
+    fetchCategories();
+  }, []);
 
-    const subCategoryOptions = uniqueSubcategories.map(sub_cat => (
-        <option key={sub_cat} value={sub_cat}>
-            {sub_cat}
-        </option>
-    ));
+  useEffect(() => {
+    const fetchSubCategories = async () => {
+      try {
+        const subCategories = await getSubCategories(selectedCategory);
+        setSubCategories(subCategories);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
 
-    const categoryOptions = uniqueCategories.map(category => (
-        <option key={category} value={category}>
-            {category}
-        </option>
-    ));
+    fetchSubCategories();
+  }, [selectedCategory]);
 
-    return (
-        <>
-            <section className="filters">
-                <div>
-                    <label htmlFor="category">
-                        Categoría
-                        <select name="" id="category" onChange={handleCategoryChange} value={selectedCategory}>
-                            <option value="All">Todas</option>
-                            {categoryOptions}
-                        </select>
-                    </label>
-                </div>
-                <div>
-                    <label htmlFor="subcategory">
-                        Subcategoría
-                        <select name="" id="subcategory">
-                            <option value="All">Todas</option>
-                            {subCategoryOptions}
-                        </select>
-                    </label>
-                </div>
-            </section>
-        </>
-    );
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
+    setSelectedSubCategory(-1);
+  };
+
+  const handleSubCategoryChange = (e) => {
+    setSelectedSubCategory(e.target.value);
+  };
+
+  const subCategoryOptions = subCategories?.map((subCategory) => (
+    <option key={subCategory.id} value={subCategory.id}>
+      {subCategory.name}
+    </option>
+  ));
+
+  const categoryOptions = categories?.map((category) => (
+    <option key={category.id} value={category.id}>
+      {category.name}
+    </option>
+  ));
+
+  return (
+    <>
+      <section className="filters">
+        <div>
+          <label htmlFor="category">
+            Categoría
+            <select
+              name=""
+              id="category"
+              onChange={handleCategoryChange}
+              value={selectedCategory}
+            >
+              <option value={-1}>Todas</option>
+              {categoryOptions}
+            </select>
+          </label>
+        </div>
+        <div>
+          <label htmlFor="subcategory">
+            Subcategoría
+            <select
+              name=""
+              id="subcategory"
+              onChange={handleSubCategoryChange}
+              value={selectedSubCategory}
+            >
+              <option value={-1}>Todas</option>
+              {subCategoryOptions}
+            </select>
+          </label>
+        </div>
+      </section>
+    </>
+  );
 };
 
 export default Filters;
