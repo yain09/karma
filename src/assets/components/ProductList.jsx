@@ -10,7 +10,6 @@ export const ProductList = (props) => {
   const { selectedSize, setSelectedSize } = useContext(Context);
 
   const [products, setProducts] = useState();
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -23,22 +22,18 @@ export const ProductList = (props) => {
         setProducts(data);
       } catch (err) {
         console.log(err.message);
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchProducts();
   }, [selectedCategory, selectedSubCategory, selectedSize]);
-
-  if (loading) return <p>Loading products...</p>;
-
   return (
     <>
-      <div className="container-products">
-        {/* <ProductCard products={filteredProducts} /> */}
-        <ProductCard products={products} />
-      </div>
+      {products && (
+        <div className="container-products">
+          <ProductCard products={products} />
+        </div>
+      )}
     </>
   );
 };
