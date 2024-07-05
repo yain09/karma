@@ -1,24 +1,34 @@
-import { useState } from "react";
+import { createContext, useState } from "react";
 import { Outlet } from "react-router-dom";
 import "./assets/styles/app.scss";
 import { NavBar } from "./assets/components/NavBar";
-import APO from "./assets/components/Apo";
+
+export const Context = createContext();
 
 function App() {
-  const [apoData, setApoData] = useState([]);
-  const handleFetchComplete = (data) => {
-    setApoData(data);
-  };
-  console.log(apoData);
-  return (
-    <main className="main">
-      <NavBar />
+  const [selectedCategory, setSelectedCategory] = useState(-1);
+  const [selectedSubCategory, setSelectedSubCategory] = useState(-1);
+  const [selectedSize, setSelectedSize] = useState(-1);
 
-      <div className="content-wrapper">
-        <Outlet />
-      </div>
-      <APO onFetchComplete={handleFetchComplete} />
-    </main>
+  return (
+    <Context.Provider
+      value={{
+        selectedCategory,
+        setSelectedCategory,
+        selectedSubCategory,
+        setSelectedSubCategory,
+        selectedSize,
+        setSelectedSize,
+      }}
+    >
+      <main className="main">
+        <NavBar />
+
+        <div className="content-wrapper">
+          <Outlet />
+        </div>
+      </main>
+    </Context.Provider>
   );
 }
 
