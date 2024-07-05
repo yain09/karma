@@ -9,10 +9,14 @@ const ProductCard = ({ products }) => {
           <figure className="container-img">
             <img
               className="product-img"
-              src={product.img || "https://placehold.co/512/lightgrey/white?text=no+img&font=montserrat"}
+              src={
+                product.img[0] ||
+                "https://placehold.co/512/lightgrey/white?text=no+img&font=montserrat"
+              }
               alt={product.name}
               onError={(e) => {
-                e.target.src = "https://placehold.co/512/1d2433/d40b4e?text=error&font=montserrat";
+                e.target.src =
+                  "https://placehold.co/512/1d2433/d40b4e?text=error&font=montserrat";
                 console.log(`Error loading image for product: ${product.name}`);
               }}
             />
