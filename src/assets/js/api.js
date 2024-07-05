@@ -24,19 +24,18 @@ async function getProducts() {
       seamless: row.c[6].v,
       frunce: row.c[7].v,
       sizes_id: row.c[8].v,
-      img: row.c[9].v,
+      img: row.c[9].v.includes(",") ? row.c[9].v.split(",") : [row.c[9].v],
       colours_id: row.c[10].v,
       stock: row.c[11].v,
     }));
     const images = await Promise.all(
-      productsData.map((product) => getImage(product.img))
+      productsData.map((product) => getImages(product.img))
     );
 
     const products = productsData.map((product, index) => ({
       ...product,
-      img: images[index][0] ? images[index][0].url : "", // Asignar la URL de la imagen o un valor por defecto si no existe
+      img: images[index].map((image) => image.url), // Asignar todas las URLs de imágenes
     }));
-
     console.log(products);
     return products;
   } catch (error) {
@@ -44,7 +43,7 @@ async function getProducts() {
   }
 }
 
-async function getImage(image_id) {
+async function getImages(images_id) {
   const sheetTitle = "IMAGES";
   const fullUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?sheet=${sheetTitle}`;
   try {
@@ -63,10 +62,10 @@ async function getImage(image_id) {
       url: row.c[1].v,
       products_id: row.c[2].v,
     }));
-    const filteredImage = images.filter((image) => {
-      return image_id == image.id;
-    });
-    return filteredImage;
+    const filteredImages = images.filter((image) =>
+      images_id.includes(image.id.toString())
+    );
+    return filteredImages;
   } catch (error) {
     console.error("Error fetching data: ", error);
   }
