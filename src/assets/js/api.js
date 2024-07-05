@@ -24,12 +24,13 @@ async function getProducts() {
       seamless: row.c[6].v,
       frunce: row.c[7].v,
       sizes_id: row.c[8].v,
-      img: row.c[9].v,
+      img: row.c[9].v.includes(",") ? row.c[9].v.split(",") : [row.c[9].v],
       colours_id: row.c[10].v,
       stock: row.c[11].v,
     }));
+    console.log(productsData);
     const images = await Promise.all(
-      productsData.map((product) => getImage(product.img))
+      productsData.map((product) => getImage(product.img[0]))
     );
 
     const products = productsData.map((product, index) => ({
