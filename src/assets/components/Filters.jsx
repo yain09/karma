@@ -1,93 +1,76 @@
 import React, { useContext, useEffect, useState } from "react";
 import { getCategories, getSubCategories } from "../js/api";
 import { Context } from "../../App";
+import "../styles/filters.scss";
 
 const Filters = () => {
   const { selectedCategory, setSelectedCategory } = useContext(Context);
   const { selectedSubCategory, setSelectedSubCategory } = useContext(Context);
-  const [categories, setCategories] = useState([]);
-  const [subCategories, setSubCategories] = useState([]);
+  const [categoriesWithSub, setCategoriesWithSub] = useState([]);
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchCategoriesAndSubCategories = async () => {
       try {
         const categories = await getCategories();
-        setCategories(categories);
+        const categoriesWithSubCategories = await Promise.all(
+          categories.map(async (category) => {
+            const subCategories = await getSubCategories(category.id);
+            return { ...category, subCategories };
+          })
+        );
+        setCategoriesWithSub(categoriesWithSubCategories);
       } catch (err) {
         console.log(err.message);
       }
     };
 
-    fetchCategories();
+    fetchCategoriesAndSubCategories();
   }, []);
 
-  useEffect(() => {
-    const fetchSubCategories = async () => {
-      try {
-        const subCategories = await getSubCategories(selectedCategory);
-        setSubCategories(subCategories);
-      } catch (err) {
-        console.log(err.message);
-      }
-    };
-
-    fetchSubCategories();
-  }, [selectedCategory]);
-
-  const handleCategoryChange = (e) => {
-    setSelectedCategory(e.target.value);
-    setSelectedSubCategory(-1);
+  const handleCategoryChange = (categoryId) => {
+    setSelectedCategory(categoryId);
+    setSelectedSubCategory(null);
   };
 
-  const handleSubCategoryChange = (e) => {
-    setSelectedSubCategory(e.target.value);
+  const handleSubCategoryChange = (subCategoryId) => {
+    setSelectedSubCategory(subCategoryId);
   };
-
-  const subCategoryOptions = subCategories?.map((subCategory) => (
-    <option key={subCategory.id} value={subCategory.id}>
-      {subCategory.name}
-    </option>
-  ));
-
-  const categoryOptions = categories?.map((category) => (
-    <option key={category.id} value={category.id}>
-      {category.name}
-    </option>
-  ));
 
   return (
-    <>
-      <section className="filters">
-        <div>
-          <label htmlFor="category">
-            Categoría
-            <select
-              name=""
-              id="category"
-              onChange={handleCategoryChange}
-              value={selectedCategory}
-            >
-              <option value={-1}>Todas</option>
-              {categoryOptions}
-            </select>
-          </label>
-        </div>
-        <div>
-          <label htmlFor="subcategory">
-            Subcategoría
-            <select
-              name=""
-              id="subcategory"
-              onChange={handleSubCategoryChange}
-              value={selectedSubCategory}
-            >
-              <option value={-1}>Todas</option>
-              {subCategoryOptions}
-            </select>
-          </label>
-        </div>
-      </section>
-    </>
+    <section className="filters">
+      <ul className="checkboxList">
+        {categoriesWithSub.map((category) => (
+          <li key={category.id}>
+            <div>
+              <input
+                type="checkbox"
+                id={`category-${category.id}`}
+                value={category.id}
+                checked={selectedCategory === category.id}
+                onChange={() => handleCategoryChange(category.id)}
+              />
+              <label htmlFor={`category-${category.id}`}>{category.name}</label>
+            </div>
+            <ul>
+              {category.subCategories.map((subCategory) => (
+                <li key={subCategory.id} style={{ marginLeft: "20px" }}>
+                  <div>
+                    <input
+                      type="checkbox"
+                      id={`subcategory-${subCategory.id}`}
+                      value={subCategory.id}
+                      checked={selectedSubCategory === subCategory.id}
+                      onChange={() => handleSubCategoryChange(subCategory.id)}
+                    />
+                    <label htmlFor={`subcategory-${subCategory.id}`}>{subCategory.name}</label>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 };
 

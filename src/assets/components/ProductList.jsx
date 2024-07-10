@@ -4,21 +4,14 @@ import "../styles/products.scss";
 import { filterProducts } from "../js/api";
 import { Context } from "../../App";
 
-export const ProductList = (props) => {
-  const { selectedCategory, setSelectedCategory } = useContext(Context);
-  const { selectedSubCategory, setSelectedSubCategory } = useContext(Context);
-  const { selectedSize, setSelectedSize } = useContext(Context);
-
-  const [products, setProducts] = useState();
+export const ProductList = () => {
+  const { selectedCategory, selectedSubCategory, selectedSize } = useContext(Context);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const data = await filterProducts(
-          selectedCategory,
-          selectedSubCategory,
-          selectedSize
-        );
+        const data = await filterProducts(selectedCategory, selectedSubCategory, selectedSize);
         setProducts(data);
       } catch (err) {
         console.log(err.message);
@@ -27,13 +20,18 @@ export const ProductList = (props) => {
 
     fetchProducts();
   }, [selectedCategory, selectedSubCategory, selectedSize]);
+
   return (
     <>
-      {products && (
+      {products.length > 0 ? (
         <div className="container-products">
           <ProductCard products={products} />
         </div>
+      ) : (
+        <p>No products found</p>
       )}
     </>
   );
 };
+
+export default ProductList;
