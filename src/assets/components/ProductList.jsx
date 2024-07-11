@@ -1,49 +1,37 @@
-import React, { useEffect, useState } from "react";
-import { products } from "../../products.json";
+import React, { useEffect, useState, useContext } from "react";
 import ProductCard from "./ProductCards";
 import "../styles/products.scss";
-
+import { filterProducts } from "../js/api";
+import { Context } from "../../App";
 
 export const ProductList = () => {
-//   const [products, setProducts] = useState([]);
+  const { selectedCategories, selectedSubCategories, selectedSize } = useContext(Context);
+  const [products, setProducts] = useState([]);
 
-  //   PAGINACION - POR AHORA NO LO USAMOS
-//   const [productsPerPage, setProductsPerPage] = useState(6);
-//   const [currentPage, setcurrentPage] = useState(1);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await filterProducts(selectedCategories, selectedSubCategories, selectedSize);
+        setProducts(data);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
 
-//   FETCH DE PRODUCTOS
-//   const productList = async () => {
-//     const data = await fetch("https://fakestoreapi.com/products");
-//     const products = await data.json();
-
-//     setProducts(products);
-//     console.log(products);
-//   };
-
-//   useEffect(() => {
-//     productList();
-//   }, []);
-
-  //   const [products] = useState(initialProducts);
-
-  const [filters, setFilters] = useState({ category: "All" });
-  // console.log(products);
-
-  const filterProducts = (products) => {
-    return products.filter((product) => {
-      return (
-        filters.category === "All" || product.category === filters.category
-      );
-    });
-  };
-  const filteredProducts = filterProducts(products);
+    fetchProducts();
+  }, [selectedCategories, selectedSubCategories, selectedSize]);
 
   return (
     <>
-      <div className="container-products">
-        {/* <ProductCard products={filteredProducts} /> */}
-        <ProductCard products={products} />
-      </div>
+      {products.length > 0 ? (
+        <div className="container-products">
+          <ProductCard products={products} />
+        </div>
+      ) : (
+        <p>No products found</p>
+      )}
     </>
   );
 };
+
+export default ProductList;

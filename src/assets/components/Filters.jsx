@@ -1,55 +1,92 @@
-import React, { useEffect, useState } from "react";
-import { products as initialProducts } from "../../products.json";
+import React, { useContext, useEffect, useState } from "react";
+import { getCategories, getSubCategories } from "../js/api";
+import { Context } from "../../App";
+import "../styles/filters.scss";
 
 const Filters = () => {
-    const [products] = useState(initialProducts);
-    const [selectedCategory, setSelectedCategory] = useState("All");
+  const { selectedCategories, setSelectedCategories, selectedSubCategories, setSelectedSubCategories } = useContext(Context);
+  const [categoriesWithSub, setCategoriesWithSub] = useState([]);
 
-    const uniqueCategories = [...new Set(products.map(product => product.category))];
-
-    const handleCategoryChange = (e) => {
-        setSelectedCategory(e.target.value);
+  useEffect(() => {
+    const fetchCategoriesAndSubCategories = async () => {
+      try {
+        const categories = await getCategories();
+        const categoriesWithSubCategories = await Promise.all(
+          categories.map(async (category) => {
+            const subCategories = await getSubCategories(category.id);
+            return { ...category, subCategories };
+          })
+        );
+        setCategoriesWithSub(categoriesWithSubCategories);
+      } catch (err) {
+        console.log(err.message);
+      }
     };
 
-    const filteredProducts = selectedCategory === "All" ? products : products.filter(product => product.category === selectedCategory);
-    const uniqueSubcategories = [...new Set(filteredProducts.map(product => product.sub_cat))];
+    fetchCategoriesAndSubCategories();
+  }, []);
 
-    const subCategoryOptions = uniqueSubcategories.map(sub_cat => (
-        <option key={sub_cat} value={sub_cat}>
-            {sub_cat}
-        </option>
-    ));
+  const handleCategoryChange = (categoryId) => {
+    if (selectedCategories.includes(categoryId)) {
+      setSelectedCategories(selectedCategories.filter(id => id !== categoryId));
+    } else {
+      setSelectedCategories([...selectedCategories, categoryId]);
+    }
+  };
 
-    const categoryOptions = uniqueCategories.map(category => (
-        <option key={category} value={category}>
-            {category}
-        </option>
-    ));
+  const handleSubCategoryChange = (subCategoryId, categoryId) => {
+    if (selectedSubCategories.includes(subCategoryId)) {
+      setSelectedSubCategories(selectedSubCategories.filter(id => id !== subCategoryId));
+    } else {
+      setSelectedSubCategories([...selectedSubCategories, subCategoryId]);
+      if (!selectedCategories.includes(categoryId)) {
+        setSelectedCategories([...selectedCategories, categoryId]);
+      }
+    }
+  };
 
-    return (
-        <>
-            <section className="filters">
-                <div>
-                    <label htmlFor="category">
-                        Categoría
-                        <select name="" id="category" onChange={handleCategoryChange} value={selectedCategory}>
-                            <option value="All">Todas</option>
-                            {categoryOptions}
-                        </select>
-                    </label>
-                </div>
-                <div>
-                    <label htmlFor="subcategory">
-                        Subcategoría
-                        <select name="" id="subcategory">
-                            <option value="All">Todas</option>
-                            {subCategoryOptions}
-                        </select>
-                    </label>
-                </div>
-            </section>
-        </>
-    );
+  const handleClearFilters = () => {
+    setSelectedCategories([]);
+    setSelectedSubCategories([]);
+  };
+
+  return (
+    <section className="filters">
+      <button onClick={handleClearFilters}>Mostrar Todo / Limpiar Filtros</button>
+      <ul className="checkboxList">
+        {categoriesWithSub.map((category) => (
+          <li key={category.id}>
+            <div>
+              <input
+                type="checkbox"
+                id={`category-${category.id}`}
+                value={category.id}
+                checked={selectedCategories.includes(category.id)}
+                onChange={() => handleCategoryChange(category.id)}
+              />
+              <label htmlFor={`category-${category.id}`}>{category.name}</label>
+            </div>
+            <ul>
+              {category.subCategories.map((subCategory) => (
+                <li key={subCategory.id} style={{ marginLeft: "20px" }}>
+                  <div>
+                    <input
+                      type="checkbox"
+                      id={`subcategory-${subCategory.id}`}
+                      value={subCategory.id}
+                      checked={selectedSubCategories.includes(subCategory.id)}
+                      onChange={() => handleSubCategoryChange(subCategory.id, category.id)}
+                    />
+                    <label htmlFor={`subcategory-${subCategory.id}`}>{subCategory.name}</label>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
 };
 
 export default Filters;

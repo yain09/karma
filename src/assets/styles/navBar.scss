@@ -16,6 +16,9 @@
   max-width: 1200px;
   height: 100%;
 }
+.navBar-container.scrolled {
+  background-color: rgb(255, 255, 255); // Cambia la opacidad cuando se hace scroll
+}
 
 .brand {
   margin: 0px 8px 0px 8px;
