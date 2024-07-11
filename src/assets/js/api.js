@@ -40,6 +40,7 @@ async function getProducts() {
     return products;
   } catch (error) {
     console.error("Error fetching data: ", error);
+    return [];
   }
 }
 
@@ -68,23 +69,18 @@ async function getImages(images_id) {
     return filteredImages;
   } catch (error) {
     console.error("Error fetching data: ", error);
+    return [];
   }
 }
 
-async function filterProducts(categoryId, subCategoryId, sizeId) {
+async function filterProducts(categoryIds, subCategoryIds, sizeId) {
   const products = await getProducts();
-  const categoryFilteredProducts = products.filter((product) => {
-    return categoryId < 0 || categoryId == product.categories_id;
+  return products.filter((product) => {
+    const categoryMatch = categoryIds.length === 0 || categoryIds.includes(product.categories_id);
+    const subCategoryMatch = subCategoryIds.length === 0 || subCategoryIds.includes(product.sub_categories_id);
+    const sizeMatch = sizeId === null || sizeId === -1 || product.sizes_id == sizeId;
+    return categoryMatch && subCategoryMatch && sizeMatch;
   });
-  const subCategoryFilteredProducts = categoryFilteredProducts.filter(
-    (product) => {
-      return subCategoryId < 0 || subCategoryId == product.sub_categories_id;
-    }
-  );
-  const filteredProducts = subCategoryFilteredProducts.filter((product) => {
-    return sizeId < 0 || sizeId == product.sizes_id;
-  });
-  return filteredProducts;
 }
 
 async function getCategories() {
@@ -109,6 +105,7 @@ async function getCategories() {
     return categories;
   } catch (error) {
     console.error("Error fetching data: ", error);
+    return [];
   }
 }
 
@@ -142,6 +139,7 @@ async function getSubCategories(category_id) {
     return filteredSubCategories;
   } catch (error) {
     console.error("Error fetching data: ", error);
+    return [];
   }
 }
 
