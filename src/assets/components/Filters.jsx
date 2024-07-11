@@ -4,8 +4,7 @@ import { Context } from "../../App";
 import "../styles/filters.scss";
 
 const Filters = () => {
-  const { selectedCategory, setSelectedCategory } = useContext(Context);
-  const { selectedSubCategory, setSelectedSubCategory } = useContext(Context);
+  const { selectedCategories, setSelectedCategories, selectedSubCategories, setSelectedSubCategories } = useContext(Context);
   const [categoriesWithSub, setCategoriesWithSub] = useState([]);
 
   useEffect(() => {
@@ -28,16 +27,32 @@ const Filters = () => {
   }, []);
 
   const handleCategoryChange = (categoryId) => {
-    setSelectedCategory(categoryId);
-    setSelectedSubCategory(null);
+    if (selectedCategories.includes(categoryId)) {
+      setSelectedCategories(selectedCategories.filter(id => id !== categoryId));
+    } else {
+      setSelectedCategories([...selectedCategories, categoryId]);
+    }
   };
 
-  const handleSubCategoryChange = (subCategoryId) => {
-    setSelectedSubCategory(subCategoryId);
+  const handleSubCategoryChange = (subCategoryId, categoryId) => {
+    if (selectedSubCategories.includes(subCategoryId)) {
+      setSelectedSubCategories(selectedSubCategories.filter(id => id !== subCategoryId));
+    } else {
+      setSelectedSubCategories([...selectedSubCategories, subCategoryId]);
+      if (!selectedCategories.includes(categoryId)) {
+        setSelectedCategories([...selectedCategories, categoryId]);
+      }
+    }
+  };
+
+  const handleClearFilters = () => {
+    setSelectedCategories([]);
+    setSelectedSubCategories([]);
   };
 
   return (
     <section className="filters">
+      <button onClick={handleClearFilters}>Mostrar Todo / Limpiar Filtros</button>
       <ul className="checkboxList">
         {categoriesWithSub.map((category) => (
           <li key={category.id}>
@@ -46,7 +61,7 @@ const Filters = () => {
                 type="checkbox"
                 id={`category-${category.id}`}
                 value={category.id}
-                checked={selectedCategory === category.id}
+                checked={selectedCategories.includes(category.id)}
                 onChange={() => handleCategoryChange(category.id)}
               />
               <label htmlFor={`category-${category.id}`}>{category.name}</label>
@@ -59,8 +74,8 @@ const Filters = () => {
                       type="checkbox"
                       id={`subcategory-${subCategory.id}`}
                       value={subCategory.id}
-                      checked={selectedSubCategory === subCategory.id}
-                      onChange={() => handleSubCategoryChange(subCategory.id)}
+                      checked={selectedSubCategories.includes(subCategory.id)}
+                      onChange={() => handleSubCategoryChange(subCategory.id, category.id)}
                     />
                     <label htmlFor={`subcategory-${subCategory.id}`}>{subCategory.name}</label>
                   </div>

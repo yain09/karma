@@ -6,17 +6,17 @@ import { NavBar } from "./assets/components/NavBar";
 export const Context = createContext();
 
 function App() {
-  const [selectedCategory, setSelectedCategory] = useState(-1);
-  const [selectedSubCategory, setSelectedSubCategory] = useState(-1);
-  const [selectedSize, setSelectedSize] = useState(-1);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedSubCategories, setSelectedSubCategories] = useState([]);
+  const [selectedSize, setSelectedSize] = useState(null);
 
   return (
     <Context.Provider
       value={{
-        selectedCategory,
-        setSelectedCategory,
-        selectedSubCategory,
-        setSelectedSubCategory,
+        selectedCategories,
+        setSelectedCategories,
+        selectedSubCategories,
+        setSelectedSubCategories,
         selectedSize,
         setSelectedSize,
       }}

@@ -5,13 +5,13 @@ import { filterProducts } from "../js/api";
 import { Context } from "../../App";
 
 export const ProductList = () => {
-  const { selectedCategory, selectedSubCategory, selectedSize } = useContext(Context);
+  const { selectedCategories, selectedSubCategories, selectedSize } = useContext(Context);
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const data = await filterProducts(selectedCategory, selectedSubCategory, selectedSize);
+        const data = await filterProducts(selectedCategories, selectedSubCategories, selectedSize);
         setProducts(data);
       } catch (err) {
         console.log(err.message);
@@ -19,7 +19,7 @@ export const ProductList = () => {
     };
 
     fetchProducts();
-  }, [selectedCategory, selectedSubCategory, selectedSize]);
+  }, [selectedCategories, selectedSubCategories, selectedSize]);
 
   return (
     <>
