@@ -52,7 +52,8 @@ const Filters = () => {
 
   return (
     <section className="filters">
-      <button onClick={handleClearFilters}>Mostrar Todo / Limpiar Filtros</button>
+      <button onClick={handleClearFilters}>Mostrar Todo</button>
+      <h4 style={{color: "#d40b4e"}}>CATEGORIAS</h4>
       <ul className="checkboxList">
         {categoriesWithSub.map((category) => (
           <li key={category.id}>
@@ -66,7 +67,7 @@ const Filters = () => {
               />
               <label htmlFor={`category-${category.id}`}>{category.name}</label>
             </div>
-            <ul>
+            <ul className="checkboxList">
               {category.subCategories.map((subCategory) => (
                 <li key={subCategory.id} style={{ marginLeft: "20px" }}>
                   <div>
@@ -85,6 +86,7 @@ const Filters = () => {
           </li>
         ))}
       </ul>
+      <h4 style={{color: "#d40b4e"}}>TALLES</h4>
     </section>
   );
 };

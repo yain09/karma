@@ -1,9 +1,18 @@
 .filters{
     display: flex;
     flex-direction: column;
-}
+    width: 200px;
+    }
 .checkboxList {
     text-align: left;
     list-style-type: none;
-    color: black
+    color: black;
+    padding-left: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+ul{
+    margin-bottom: 12px !important;
+    margin-top: 4px !important;
 }
