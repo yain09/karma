@@ -31,13 +31,13 @@ const NavBar = () => {
       <div className="navBar">
         <div style={{ display: "flex", alignItems: "center" }}>
           <p className="brand">Karma</p>
-          <button className="hamburger-buttonNav" onClick={toggleDropdown}>
+          <button className={`hamburger-buttonNav ${isScrolled ? "scrolled" : ""}`} onClick={toggleDropdown}>
             <RxHamburgerMenu />
           </button>
           {isDropdownOpen && (
-        <div className="dropdown-menu">
-          <a href="#" className="dropdown-a">Contacto</a>
-          <a href="#" className="dropdown-a">Tienda</a>
+        <div className={`dropdown-menu ${isScrolled ? "scrolled" : ""}`}>
+          <a href="#" className={`dropdown-a ${isScrolled ? "scrolled" : ""}`}>Contacto</a>
+          <a href="#" className={`dropdown-a ${isScrolled ? "scrolled" : ""}`}>Tienda</a>
         </div>
       )}
           <div className="nav-links">

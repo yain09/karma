@@ -23,6 +23,7 @@
     255,
     255
   ); /* Cambia el color de fondo cuando se hace scroll */
+  
 }
 
 .brand {
@@ -62,8 +63,10 @@
   cursor: pointer;
   margin-left: 8px;
   padding: 5px;
-  }
-
+}
+.hamburger-buttonNav.scrolled{
+color: black;
+}
 .dropdown-menu {
   display: none;
 }
@@ -78,6 +81,10 @@
 .dropdown-a:hover {
   background-color: #d40b4e;
   color: white;
+}
+
+.dropdown-a.scrolled {
+  color: black;
 }
 
 @media (max-width: 800px) {
@@ -96,6 +103,9 @@
     width: 100%;
     background-color: rgba(0, 0, 0, 0.3);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  .dropdown-menu.scrolled{
+    background-color: rgba(255, 255, 255, 0.6);
   }
 
   .navBar-container.scrolled .navBar-a {
