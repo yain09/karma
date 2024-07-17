@@ -18,7 +18,11 @@
 }
 
 .navBar-container.scrolled {
-  background-color: rgb(255, 255, 255); /* Cambia el color de fondo cuando se hace scroll */
+  background-color: rgb(
+    255,
+    255,
+    255
+  ); /* Cambia el color de fondo cuando se hace scroll */
 }
 
 .brand {
@@ -33,6 +37,10 @@
   font-style: normal;
 }
 
+.nav-links {
+  display: flex;
+}
+
 .navBar-a {
   margin: 0px 8px;
   color: #45454a;
@@ -40,4 +48,57 @@
 
 .navBar-a:hover {
   color: white;
+}
+
+.nav-icons {
+  display: flex;
+  align-items: center;
+}
+
+.hamburger-buttonNav {
+  display: none;
+  background: none;
+  font-size: 30px;
+  cursor: pointer;
+  margin-left: 8px;
+  padding: 5px;
+  }
+
+.dropdown-menu {
+  display: none;
+}
+
+.dropdown-a {
+  display: block;
+  padding: 8px;
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.dropdown-a:hover {
+  background-color: #d40b4e;
+  color: white;
+}
+
+@media (max-width: 800px) {
+  .hamburger-buttonNav {
+    display: flex;
+  }
+  .nav-links {
+    display: none;
+  }
+
+  .dropdown-menu {
+    display: block;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .navBar-container.scrolled .navBar-a {
+    color: #45454a;
+  }
 }

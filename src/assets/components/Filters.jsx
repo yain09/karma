@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { getCategories, getSubCategories } from "../js/api";
 import { Context } from "../../App";
 import "../styles/filters.scss";
+import { RxMixerHorizontal } from "react-icons/rx";
 
 const Filters = () => {
   const { selectedCategories, setSelectedCategories, selectedSubCategories, setSelectedSubCategories } = useContext(Context);
@@ -58,7 +59,7 @@ const Filters = () => {
   return (
     <div className="filters-container">
       <button className="hamburger-button" onClick={toggleDropdown}>
-        ☰
+      <RxMixerHorizontal />
       </button>
       <section className={`filters ${isDropdownVisible ? "visible" : "hidden"}`}>
         <button onClick={handleClearFilters}>Mostrar Todo</button>
