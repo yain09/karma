@@ -2,6 +2,8 @@
     display: flex;
     flex-direction: column;
     width: 200px;
+    grid-area: "filters";
+    margin: 16px 0 auto;
     }
 .checkboxList {
     text-align: left;
