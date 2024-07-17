@@ -1,9 +1,56 @@
-.filters{
-    display: flex;
-    flex-direction: column;
+.filters-container {
+  position: relative;
 }
+
+.hamburger-button {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
+  margin: 16px 0;
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  grid-area: "filters";
+  margin: 16px 0 auto;
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 80px; /* Ajusta este valor para que no quede bajo el navbar */
+}
+
 .checkboxList {
-    text-align: left;
-    list-style-type: none;
-    color: black
+  text-align: left;
+  list-style-type: none;
+  color: black;
+  padding-left: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+ul {
+  margin-bottom: 12px !important;
+  margin-top: 4px !important;
+}
+
+@media (max-width: 800px) {
+  .filters {
+    display: none;
+  }
+
+  .filters.visible {
+    display: flex;
+    position: static;
+    background-color: white;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+  }
+
+  .hamburger-button {
+    display: block;
+  }
 }
