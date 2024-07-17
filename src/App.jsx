@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 import { Outlet } from "react-router-dom";
 import "./assets/styles/app.scss";
-import { NavBar } from "./assets/components/NavBar";
+import NavBar from "./assets/components/NavBar.jsx";
 
 export const Context = createContext();
 
