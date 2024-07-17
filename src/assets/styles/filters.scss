@@ -1,20 +1,24 @@
-.filters{
-    display: flex;
-    flex-direction: column;
-    width: 200px;
-    grid-area: "filters";
-    margin: 16px 0 auto;
-    }
-.checkboxList {
-    text-align: left;
-    list-style-type: none;
-    color: black;
-    padding-left: 0px;
-    margin-top: 0px;
-    margin-bottom: 0px;
+.filters {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  grid-area: "filters";
+  margin: 16px 0 auto;
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 80px; /* Ajusta este valor para que no quede bajo el navbar */
 }
 
-ul{
-    margin-bottom: 12px !important;
-    margin-top: 4px !important;
+.checkboxList {
+  text-align: left;
+  list-style-type: none;
+  color: black;
+  padding-left: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+ul {
+  margin-bottom: 12px !important;
+  margin-top: 4px !important;
 }
