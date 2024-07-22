@@ -54,6 +54,7 @@
 .nav-icons {
   display: flex;
   align-items: center;
+  padding: 16px;
 }
 
 .hamburger-buttonNav {
@@ -90,7 +91,10 @@ color: black;
 @media (max-width: 800px) {
   .hamburger-buttonNav {
     display: flex;
-  }
+    }
+  .hamburger-buttonNav:focus{
+    outline: none;
+  }    
   .nav-links {
     display: none;
   }

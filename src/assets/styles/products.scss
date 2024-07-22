@@ -5,10 +5,12 @@ body {
   margin: 0px;
 }
 .grid {
-  display: grid;
+  display: flex;
+  
+  flex-direction: column;
   justify-content: center;
   align-items: normal;
-}
+} 
 .product-list {
   grid-area: "productList";
 }
@@ -67,6 +69,7 @@ body {
 
 @media (width > 800px) {
   .grid {
+    display:grid;
     grid-template-columns: 200px 1fr;
     grid-template-areas: "filters productList";
     max-width: 820px;

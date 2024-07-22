@@ -46,7 +46,7 @@ const NavBar = () => {
           </div>
         </div>
         <div className="nav-icons">
-          <FaShoppingCart style={{ fontSize: "30px", color: "#d40b4e", marginRight: "8px" }} />
+          <FaShoppingCart style={{ fontSize: "30px", color: "#d40b4e" }} />
           
         </div>
       </div>

@@ -1,5 +1,12 @@
 .filters-container {
   position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  grid-template-areas: "close sortBy";
+  padding: 8px;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .hamburger-button {
@@ -9,6 +16,7 @@
   font-size: 30px;
   cursor: pointer;
   margin: 16px 0;
+  height: 50px;
 }
 
 .filters {
@@ -35,22 +43,63 @@ ul {
   margin-bottom: 12px !important;
   margin-top: 4px !important;
 }
-
+.btnSortBy {
+  background-color: rgba(50, 50, 50, 0.5);
+  grid-area: sortBy;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+.btnClear {
+  background-color: rgba(50, 50, 50, 0.5);
+  grid-area: showAll;
+}
+.categories {
+  grid-area: categories;
+}
+.sizes {
+  grid-area: sizes;
+}
 @media (max-width: 800px) {
+  .btnSortBy {
+    margin: 0px;
+  }
   .filters {
     display: none;
+    margin: 0px;
+  }
+
+  .filters-container {
+    column-gap: 8px;
+    row-gap: 16px;
+    max-width: 600px;
+    margin: 0 0;
+    grid-template-areas:
+      "close sortBy"
+      "filters filters";
   }
 
   .filters.visible {
-    display: flex;
-    position: static;
-    background-color: white;
-    padding: 16px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-area: filters;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "categories sizes"
+      "showAll showAll";
     z-index: 10;
+    gap: 8px;
+    margin: 0 auto;
+    width: 100%;
   }
 
-  .hamburger-button {
-    display: block;
+  button.hamburger-button {
+    display: flex;
+    border-radius: 4px;
+    margin: 0px;
+    grid-area: close;
+    justify-content: center;
+    align-items: center;
+  }
+  .label {
+    font-size: 12px;
   }
 }
