@@ -13,8 +13,8 @@ function Home() {
         style={{ height: "400px" }}
       />
       <div className="grid">
-      <Filters />
-      <ProductList className="productList" />
+        <Filters />
+        <ProductList className="productList" />
       </div>
     </>
   );
