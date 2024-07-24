@@ -9,7 +9,7 @@ const NavBar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 400) {
+      if (window.scrollY > (400-80)) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
@@ -32,7 +32,9 @@ const NavBar = () => {
         <div style={{ display: "flex", alignItems: "center" }}>
           <p className="brand">Karma</p>
           <button className={`hamburger-buttonNav ${isScrolled ? "scrolled" : ""}`} onClick={toggleDropdown}>
-            <RxHamburgerMenu />
+            <RxHamburgerMenu 
+            // style={{ color: ""}}
+            />
           </button>
           {isDropdownOpen && (
         <div className={`dropdown-menu ${isScrolled ? "scrolled" : ""}`}>

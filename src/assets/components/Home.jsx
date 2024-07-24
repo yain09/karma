@@ -14,7 +14,6 @@ function Home() {
       />
       <div className="grid">
         <Filters />
-
         <ProductList className="productList" />
       </div>
     </>

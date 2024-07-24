@@ -1,9 +1,7 @@
 .filters-container {
   position: relative;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  grid-template-areas: "close sortBy";
+  display: flex;
+  flex-direction: column;
   padding: 8px;
   max-width: 600px;
   margin: 0 auto;
@@ -43,15 +41,17 @@ ul {
   margin-bottom: 12px !important;
   margin-top: 4px !important;
 }
+
 .btnSortBy {
-  background-color: rgba(50, 50, 50, 0.5);
-  grid-area: sortBy;
-  margin-top: 8px;
-  margin-bottom: 8px;
+  background-color: rgba(255, 255, 255, 0);
+  color: #1D2433;
+  // margin-top: 8px;
 }
 .btnClear {
-  background-color: rgba(50, 50, 50, 0.5);
+  background-color: rgba(255, 255, 255, 0.5);
+  color: #1D2433;
   grid-area: showAll;
+  margin-bottom: 8px;
 }
 .categories {
   grid-area: categories;
@@ -59,9 +59,24 @@ ul {
 .sizes {
   grid-area: sizes;
 }
+.label {
+}
+
+.mobile {
+  display: none;
+}
+.desktop {
+  display: block;
+  margin-bottom: 8px;
+}
+
+// MEDIA QUERIES
+
 @media (max-width: 800px) {
   .btnSortBy {
     margin: 0px;
+    grid-area: sortBy;
+    font-size: 20px;
   }
   .filters {
     display: none;
@@ -69,10 +84,12 @@ ul {
   }
 
   .filters-container {
+    display: grid;
     column-gap: 8px;
     row-gap: 16px;
     max-width: 600px;
     margin: 0 0;
+    grid-template-columns: 1fr 1fr;
     grid-template-areas:
       "close sortBy"
       "filters filters";
@@ -101,5 +118,11 @@ ul {
   }
   .label {
     font-size: 12px;
+  }
+  .mobile {
+    display: block;
+  }
+  .desktop {
+    display: none;
   }
 }

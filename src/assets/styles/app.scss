@@ -5,5 +5,12 @@
 }
 
 .content-wrapper {
-  // padding-top: 70px;
+ display: flex;
+ flex-direction: column;
+}
+
+@media (width > 800px) {
+  .content-wrapper {
+    display: block;
+    }
 }
