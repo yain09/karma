@@ -4,6 +4,10 @@ body {
   font-family: "Open Sans", sans-serif;
 }
 
+::selection {
+  background-color: white;
+  color: #d40b4e;
+}
 /* Aplicar Montserrat a los encabezados */
 h1,
 h2,
@@ -34,6 +38,7 @@ a {
   font-weight: 500;
   text-decoration: inherit;
 }
+
 a:hover {
   color: #d40b4e;
 }
@@ -62,14 +67,15 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+@media (width > 800px) {
 button:hover {
-  border-color: #d40b4e;
+  background-color: rgba(255, 255, 255, 0.5);
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  background-color: rgba(26, 26, 26, 0.387);
 }
-
+}
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
