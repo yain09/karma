@@ -65,12 +65,7 @@ body {
   color: #d40b4e;
   font-size: 18px;
   font-weight: 700;
-}
-.products-navbar{
-  display: block;
-  height: 70px;
-  margin-top: 0px;
-  background-color: white;
+  grid-area: price;
 }
 @media (width > 800px) {
   .grid {
