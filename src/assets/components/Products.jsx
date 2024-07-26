@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import MobileView from "./ViewMobile";
-import DesktopView from "./ViewDesktop";
+import MobileView from "./ViewMobile.jsx";
+import DesktopView from "./ViewDesktop.jsx";
 import "../styles/product-des.scss";
 import "../styles/checkbox-prod.scss";
 
@@ -47,6 +47,7 @@ function Products() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [mainImage, setMainImage] = useState(img[0].url);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSizeChange = (e) => {
     setSelectedSize(e.target.value);
@@ -61,44 +62,93 @@ function Products() {
     setCurrentImageIndex(index);
   };
 
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const goToNextImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % img.length);
+    setMainImage(img[(currentImageIndex + 1) % img.length].url);
+  };
+
+  const goToPreviousImage = () => {
+    setCurrentImageIndex(
+      (prevIndex) => (prevIndex - 1 + img.length) % img.length
+    );
+    setMainImage(img[(currentImageIndex - 1 + img.length) % img.length].url);
+  };
+
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  return windowWidth > 600 ? (
-    <DesktopView
-      title={title}
-      description={description}
-      price={price}
-      sizes={sizes}
-      img={img}
-      colors={colors}
-      selectedSize={selectedSize}
-      selectedColor={selectedColor}
-      mainImage={mainImage}
-      currentImageIndex={currentImageIndex}
-      handleSizeChange={handleSizeChange}
-      handleColorChange={handleColorChange}
-      handleImageClick={handleImageClick}
-    />
-  ) : (
-    <MobileView
-      title={title}
-      description={description}
-      price={price}
-      sizes={sizes}
-      img={img}
-      colors={colors}
-      selectedSize={selectedSize}
-      selectedColor={selectedColor}
-      mainImage={mainImage}
-      currentImageIndex={currentImageIndex}
-      handleSizeChange={handleSizeChange}
-      handleColorChange={handleColorChange}
-      handleImageClick={handleImageClick}
-    />
+  return (
+    <>
+      {windowWidth > 600 ? (
+        <DesktopView
+          title={title}
+          description={description}
+          price={price}
+          sizes={sizes}
+          img={img}
+          colors={colors}
+          selectedSize={selectedSize}
+          selectedColor={selectedColor}
+          mainImage={mainImage}
+          currentImageIndex={currentImageIndex}
+          handleSizeChange={handleSizeChange}
+          handleColorChange={handleColorChange}
+          handleImageClick={handleImageClick}
+          openModal={openModal}
+          isModalOpen={isModalOpen}
+          closeModal={closeModal}
+          goToNextImage={goToNextImage}
+          goToPreviousImage={goToPreviousImage}
+        />
+      ) : (
+        <MobileView
+          title={title}
+          description={description}
+          price={price}
+          sizes={sizes}
+          img={img}
+          colors={colors}
+          selectedSize={selectedSize}
+          selectedColor={selectedColor}
+          mainImage={mainImage}
+          currentImageIndex={currentImageIndex}
+          handleSizeChange={handleSizeChange}
+          handleColorChange={handleColorChange}
+          handleImageClick={handleImageClick}
+          openModal={openModal}
+          isModalOpen={isModalOpen}
+          closeModal={closeModal}
+          goToNextImage={goToNextImage}
+          goToPreviousImage={goToPreviousImage}
+        />
+      )}
+
+      {isModalOpen && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={closeModal}>
+              ×
+            </button>
+            <div className="img-counter">
+              {currentImageIndex + 1}/{img.length}
+            </div>
+            <button className="modal-prev" onClick={goToPreviousImage}>
+              &lt;
+            </button>
+            <img className="modal-img" src={mainImage} alt="" />
+            <button className="modal-next" onClick={goToNextImage}>
+              &gt;
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 

@@ -14,6 +14,11 @@ function ViewDesktop({
   handleSizeChange,
   handleColorChange,
   handleImageClick,
+  openModal,
+  isModalOpen,
+  closeModal,
+  goToNextImage,
+  goToPreviousImage,
 }) {
   return (
     <>
@@ -24,7 +29,12 @@ function ViewDesktop({
             <div className="img-counter">
               {currentImageIndex + 1}/{img.length}
             </div>
-            <img className="product-img" src={mainImage} alt="" />
+            <img
+              className="product-img"
+              src={mainImage}
+              alt=""
+              onClick={openModal}
+            />
             <div className="dot-navigate">
               {img.map((item, index) => (
                 <img
